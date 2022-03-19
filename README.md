@@ -58,3 +58,49 @@ Once you have installed the SDK follow the below documentation to integrate the 
 |:-----------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 |       [master](https://github.com/moengage/Android-Sample/tree/master)      | Integration Sample where MoEngage SDK handles push token registration and push display.                                                                       |
 | [app_handling_push](https://github.com/moengage/Android-Sample/tree/app_handling_push) | Integration Sample where client app handles the push token registration, push display and passes a callback to the SDK for notification received and clicked. |
+
+
+
+Dashboard
+  - Link web: https://www.moengage.com/
+
+Environment
+  - Test - build debug - for dev
+  - Live - build release - for tester
+
+Setting
+  - App ID: Setting->App->General->General Setting-> App ID
+  - Push token: Setting->Channel->Push->Mobile Push->Android(FCM). Get server key on FCM console
+
+User Attribute
+  - Standard attribute - Exists on dashboard MoEngage, eg First Name, Last Name, Email, Client ID, …
+  - Custom attribute - Key custom
+
+Check user attribute on dashboard
+- Login account -> Select app sit or uat
+- Dashboard -> Segment -> Create Segment -> Search user by email, check time login correct -> Open user -> Check “Tracked Custom Attribute” and “Tracked Standard Attribute”
+
+
+Push notification:
+  - Via MoEngage - check on MoePushMessageListener class
+  - Via FCM - check on FcmEventListener
+  - Notification already show when received from MoEngage, handle click  on onHandlerRedirection()
+  - Push notification using create campaign on MoEngage dashboard
+  - Login -> Create New -> Campaign -> Outbound -> Push
+  - Enter value: 
+    - Campaign Name: …
+    - Target audience: All user for test, or using email, uniqueid, …
+    - Target platform
+    - Title, message
+    - Default click action: must be selected Deeplinking, url not empty. If action is “In App browser” -> paste real url to open browser
+    - Key value pair: key: “name” - value: “Home”, “In App browser”, … check more in MoeType class
+    - Test campaign: If want to test notification with specific device, login on device and push with email
+    - Next, choose time and some option push. 
+    - Publish if done
+All action click on notification will open NotificationActivity, check this class when received notification when debuging
+
+Tracking Event
+  - Check event on Dashboard
+  - Login account on app
+  - Login -> Dashboard -> Segment -> Create Segment -> Search user by email -> Open page user -> Activity Info
+  - Check code tracking event on MoeTrackingEvent class
